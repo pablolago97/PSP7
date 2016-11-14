@@ -19,11 +19,14 @@ public class Escritura extends Thread {
    public void run(){
       
         try {
-            almacen.escribir();            
+            almacen.escribir(); 
+            
         } catch (InterruptedException ex) {
              System.out.println("No se pudo ejecutar la escritora #ERROR");
         
        }
     }
+   
+   
     
 }

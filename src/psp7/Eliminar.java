@@ -9,14 +9,14 @@ package psp7;
 public class Eliminar extends Thread {
 
     private Almacenamiento almacen;
-    
+      
     public Eliminar(Almacenamiento a) {
         almacen = a ;
     }
     
     @Override
     public void run(){
-      
+     
         try {
             almacen.eliminar();
         } catch (InterruptedException ex) {
@@ -25,3 +25,6 @@ public class Eliminar extends Thread {
     }
     
 }
+
+
+

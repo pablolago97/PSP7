@@ -3,8 +3,6 @@ package psp7;
 import java.util.Scanner;
 import javax.swing.JOptionPane;
 
-
-
 /**
  *
  * @author Pablo
@@ -13,53 +11,48 @@ public class Almacenamiento {
 
     public Almacenamiento() {
     }
-    
+
     private String mensaje = "";
-    public boolean buzonLleno = true;
-    public boolean buzonVacio = false;
-    private Scanner sc;
-    
-    
-    public synchronized void escribir()throws InterruptedException{
+    public boolean buzonLleno = false;
+    public boolean buzonVacio = true;
+    private Scanner sc = new Scanner(System.in);
+
+    public synchronized void escribir() throws InterruptedException {
         
-        while(buzonLleno == true){
+        if(!"".equals(Buzon.mensaje)){
             wait();
         }
+        
         System.out.println("Introduce el mensaje:");
-        mensaje = sc.nextLine();
+
+        Buzon.mensaje = sc.nextLine();
+        System.out.println("El mensaje ' " + mensaje + " ' ha sido introducido.");
         
-        if(!"".equals(mensaje)){
-            buzonLleno=true;
-            buzonVacio=false;
-            notify();
-        }
+        notify();   
+        new Menu().start();
+
     }
-    
-    public synchronized void eliminar()throws InterruptedException{
+
+    public synchronized void eliminar() throws InterruptedException {
         
-        while(buzonVacio == false){
+        if("".equals(Buzon.mensaje)){
             wait();
         }
         
-       mensaje ="";
-       System.out.println("Mensaje eliminado con exito");
-       
-       if("".equals(mensaje)){
-           buzonLleno=false;
-           buzonVacio=true;
-           notify();
-           
-       }
+        Buzon.mensaje = "";
+        System.out.println("Mensaje eliminado con exito");
+        notify();
+        new Menu().start();
     }
-    
-    public synchronized void leer()throws InterruptedException{
-        
-        while(buzonVacio == true){
+
+    public synchronized void leer() throws InterruptedException {
+
+        if ("".equals(Buzon.mensaje)) {
             wait();
         }
         
-        System.out.println(mensaje);
-       
-       
+        System.out.println(Buzon.mensaje);
+        notify();
+        new Menu().start();
     }
 }
